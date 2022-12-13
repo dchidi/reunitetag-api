@@ -60,7 +60,7 @@ def validate_tag():
 
 @app.get('/products')
 def products():
-    pass
+    return {'data':"should return product list"}
 
 
 @app.get('/product_details')
