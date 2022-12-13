@@ -121,10 +121,12 @@ def checkout():
 @app.get('/checkout_response/<id>')
 @cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def checkout_response(id):
-    _url = 'http://localhost:3000/cancel_payment'
+    live = True
+    base_url = 'https://reunitetag.herokuapp.com' if live else 'http://localhost:3000'
+    _url = '{}/cancel_payment'.format(base_url)
     _data = StripeCheckoutService({}).checkout_response(id)
     if _data['status'] == 201:
-        _url = 'http://localhost:3000/payment_successful/ok'
+        _url = '{}/payment_successful/ok'.format(base_url)
         return redirect(_url)
     return {'data': _data}
 
