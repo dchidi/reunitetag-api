@@ -2,10 +2,10 @@ import os
 from flask import Flask, request, session, redirect
 from flask_mail import Mail
 from dotenv import load_dotenv, find_dotenv
-from app.services.user import UserService
-from app.services.tag import TagService
-from app.services.stripe_checkout import StripeCheckoutService
-from app.services.send_email import Email
+from code.services.user import UserService
+from code.services.tag import TagService
+from code.services.stripe_checkout import StripeCheckoutService
+from code.services.send_email import Email
 # Resource : https://flask-cors.readthedocs.io
 from flask_cors import CORS, cross_origin
 
