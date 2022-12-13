@@ -57,8 +57,11 @@ class StripeCheckoutService:
         ]
         self.delivery_date = {'min': 3, 'max': 5}
         self.urls = {
-            'success': 'http://127.0.0.1:5000/checkout_response/{CHECKOUT_SESSION_ID}',
-            'cancel': 'http://localhost:3000/cancel_payment'
+            # 'success': 'http://127.0.0.1:5000/checkout_response/{CHECKOUT_SESSION_ID}',
+            # 'cancel': 'http://localhost:3000/cancel_payment'
+            'success': 'https://reunitetag-api.herokuapp.com/checkout_response/{CHECKOUT_SESSION_ID}',
+            'cancel': 'https://reunitetag.herokuapp.com/cancel_payment'
+
         }
 
     def checkout(self):
