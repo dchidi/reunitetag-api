@@ -6,8 +6,8 @@ import uuid
 from .db_connection import DB_URI
 from dotenv import load_dotenv, find_dotenv
 from flask import session
-from models.PaymentHistory import PaymentHistoryModel
-from models.Fulfillment import FulfillmentModel
+from code.models.PaymentHistory import PaymentHistoryModel
+from code.models.Fulfillment import FulfillmentModel
 
 # find and load possible environment variable file
 load_dotenv(find_dotenv())

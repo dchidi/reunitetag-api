@@ -4,9 +4,9 @@ import random
 from datetime import datetime
 from .db_connection import DB_URI
 from .send_message import send_message
-from models.Tag import TagModel
-from models.MessageLog import MessageLogModel
-from models.User import UserModel
+from code.models.Tag import TagModel
+from code.models.MessageLog import MessageLogModel
+from code.models.User import UserModel
 
 
 class TagService:
