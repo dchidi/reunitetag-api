@@ -5,9 +5,9 @@ from datetime import datetime
 from .db_connection import DB_URI
 from .send_message import send_message
 # import from any other directory outside the current directory should have the directory name
-from code.models.User import UserModel
-from code.models.Tag import TagModel
-from code.models.MessageLog import MessageLogModel
+from main.models.User import UserModel
+from main.models.Tag import TagModel
+from main.models.MessageLog import MessageLogModel
 # Google translate
 from googletrans import Translator
 

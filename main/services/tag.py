@@ -4,9 +4,9 @@ import random
 from datetime import datetime
 from .db_connection import DB_URI
 from .send_message import send_message
-from code.models.Tag import TagModel
-from code.models.MessageLog import MessageLogModel
-from code.models.User import UserModel
+from main.models.Tag import TagModel
+from main.models.MessageLog import MessageLogModel
+from main.models.User import UserModel
 
 
 class TagService:
@@ -66,7 +66,7 @@ class TagService:
                              _msg="Your ReuniteTag ID is {}".format(tag_details['tag']))
                 return {'status': 200, 'msg': tag_details}
             else:
-                # send email to admin when status code is 501
+                # send email to admin when status main is 501
                 return {'status': 501, 'msg': 'Assign phone number to tag process failed',
                         'error': _update_status['msg'], 'data': {'phone': phone['phone']}}
         except Exception as e:
