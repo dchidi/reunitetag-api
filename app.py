@@ -8,6 +8,7 @@ from main.services.stripe_checkout import StripeCheckoutService
 from main.services.send_email import Email
 # Resource : https://flask-cors.readthedocs.io
 from flask_cors import CORS, cross_origin
+from waitress import serve
 
 # find and load possible environment variable file
 load_dotenv(find_dotenv())
@@ -143,4 +144,6 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    # app.run(host="127.0.0.1", port=5000, debug=True)
+    # waitress is use for production
+    serve(app, host='0.0.0.0', port=5000)
