@@ -12,8 +12,8 @@ from waitress import serve
 
 # find and load possible environment variable file
 load_dotenv(find_dotenv())
-
 app = Flask(__name__)
+CORS(app)
 app.config['SECRET_KEY'] = os.getenv('REUNITE_TAG_SECRET_KEY')
 app.config['CORS_HEADERS'] = 'Content-Type'
 # Email settings
@@ -35,7 +35,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # ******************************************************************
 # POST
 @app.post('/register_tag')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
+# @cross_origin(origins='localhost', headers=['Content-Type', 'Authorization'])
 def register_tag():
     # expected input {phone:list, tag:string, language:string}
     user_service = UserService(request.get_json())
@@ -46,7 +46,6 @@ def register_tag():
 # ****************************** Tags ******************************
 # ******************************************************************
 @app.post('/load_tag')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def load_tag():
     # expected input {total_tags:int}
     tag_service = TagService(request.get_json())
@@ -54,14 +53,13 @@ def load_tag():
 
 
 @app.post('/validate_tag')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def validate_tag():
     return {'data': TagService({}).verify_tag(request.get_json()['tagId'])}
 
 
 @app.get('/products')
 def products():
-    return {'data':"should return product list"}
+    return {'data': "should return product list"}
 
 
 @app.get('/product_details')
@@ -78,9 +76,9 @@ def product():
 
 
 @app.post('/assign_tag')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def assign_tag():
     tag_service = TagService({})
+    # data = {'status': 200, 'msg': 'Delete after checks is done and uncomment the below line'}
     data = tag_service.assign_tag_to_phone_number(request.get_json())
     if data['status'] == 501:
         email = Email(mail_lib)
@@ -89,7 +87,6 @@ def assign_tag():
 
 
 @app.post('/found_item')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def found_item():
     payload = request.get_json()
     data = {'phones': [{'phone_number': payload['phone_number']}], 'tag': payload['tag_id'],
@@ -100,7 +97,6 @@ def found_item():
 
 # PUT
 @app.put('/top_up')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def top_up():
     data = request.get_json()
     return {'data': TagService({}).top_up(tag=data['tag'])}
@@ -110,7 +106,6 @@ def top_up():
 # *********************** CHECKOUT WITH STRIPE *********************
 # ******************************************************************
 @app.post('/checkout')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def checkout():
     stripe_checkout = StripeCheckoutService(request.get_json()['details'])
     stripe_data = stripe_checkout.checkout()
@@ -120,10 +115,13 @@ def checkout():
 
 
 @app.get('/checkout_response/<id>')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def checkout_response(id):
-    live = True
-    base_url = 'https://reunitetag.herokuapp.com' if live else 'http://localhost:3000'
+    live = False
+    if live:
+        base_url = 'https://reunitetag.herokuapp.com'
+    else:
+        base_url = 'http://localhost:3000'
+
     _url = '{}/cancel_payment'.format(base_url)
     _data = StripeCheckoutService({}).checkout_response(id)
     if _data['status'] == 201:
@@ -137,7 +135,6 @@ def checkout_response(id):
 # ******************************************************************
 
 @app.post('/send_mail')
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def send_mail():
     email = Email(mail_lib)
     return {'data': email.send_enquiry(request.get_json())}
